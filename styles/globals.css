@@ -1,0 +1,34 @@
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --blue:       #0C2151;
+  --blue-2:     #163270;
+  --blue-pale:  #eef2fa;
+  --orange:     #F07823;
+  --orange-2:   #d9651a;
+  --orange-pale:#fff5ed;
+  --off:        #f5f7fc;
+  --white:      #ffffff;
+  --ink:        #0e1824;
+  --muted:      #5a6880;
+  --border:     #dce3ef;
+  --green:      #1a7d52;
+  --green-pale: #edfaf4;
+  --radius:     8px;
+  --radius-lg:  14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }

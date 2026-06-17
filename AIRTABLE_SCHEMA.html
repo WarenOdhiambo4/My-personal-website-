@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waren Portfolio — Airtable Schema</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--B:#0C2151;--B2:#163270;--O:#F07823;--O2:#d9651a;--off:#f5f7fc;--W:#fff;--T:#0e1824;--M:#5a6880;--bdr:#dce3ef;--G:#1a7d52;--r:8px;--rl:12px;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--T);font-size:14px;line-height:1.65}
+.hd{background:var(--B);padding:36px 40px}
+.hd h1{font-size:28px;font-weight:900;color:#fff;letter-spacing:-.02em}
+.hd h1 em{color:var(--O);font-style:normal}
+.hd p{font-size:13px;color:rgba(255,255,255,.45);margin-top:6px}
+.pg{max-width:960px;margin:0 auto;padding:36px 32px 80px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.nb{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid var(--bdr);background:var(--W);color:var(--M);cursor:pointer;transition:all .15s}
+.nb.on{background:var(--B);color:#fff;border-color:var(--B)}
+.sec{display:none}.sec.on{display:block}
+.ch{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--O);margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.ch::before{content:'';width:22px;height:2px;background:var(--O);flex-shrink:0}
+h2{font-size:22px;font-weight:900;color:var(--B);letter-spacing:-.02em;margin-bottom:6px}
+.desc{font-size:13px;color:var(--M);margin-bottom:20px;max-width:640px;line-height:1.7}
+.tbl{width:100%;border-collapse:collapse;margin-bottom:28px;border:1px solid var(--bdr);border-radius:var(--rl);overflow:hidden}
+.tbl th{background:var(--B);color:#fff;padding:9px 13px;text-align:left;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--bdr);color:var(--M);vertical-align:top;font-size:13px;line-height:1.55}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(12,33,81,.02)}
+.fn{color:var(--T);font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:12px}
+.typ{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;font-family:'IBM Plex Mono',monospace}
+.t-tx{background:#E6F1FB;color:#0C447C}
+.t-nu{background:#D5EDD9;color:#1A5C2A}
+.t-fo{background:#EEE8F5;color:#4A2A8A}
+.t-li{background:#FBE8D5;color:#C85A00}
+.t-se{background:#F5EBD0;color:#8C5C00}
+.t-dt{background:#F0EEF8;color:#3D2B7A}
+.t-au{background:#F5D6D6;color:#8C1A1A}
+.t-ro{background:#E8F5F0;color:#0F6E56}
+.t-ch{background:#F0F5E8;color:#3B5C1A}
+.t-at{background:#F5F0E0;color:#6B4A00}
+.code{background:#0e1824;color:#d4e0f0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:12px 14px;border-radius:var(--r);margin:6px 0;line-height:1.75;white-space:pre;overflow-x:auto}
+.code .k{color:#F07823}.code .s{color:#52d17c}.code .c{color:#4a6070}
+.auto-card{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.ac-hd{background:var(--B);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.ac-num{min-width:26px;height:26px;border-radius:50%;background:var(--O);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ac-title{font-size:13px;font-weight:800;color:#fff}
+.ac-bd{padding:12px 16px;font-size:13px;color:var(--M);line-height:1.65}
+.ac-row{display:grid;grid-template-columns:90px 1fr;gap:8px 12px;margin-bottom:6px}
+.ac-row:last-child{margin-bottom:0}
+.ac-lbl{font-size:10px;font-weight:800;color:var(--M);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.ac-val{color:var(--T)}
+.note{background:#fff5ed;border-left:3px solid var(--O);padding:10px 14px;font-size:12.5px;color:#6b3300;line-height:1.65;border-radius:0 var(--r) var(--r) 0;margin:10px 0}
+.view-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.view-card{border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;background:var(--W)}
+.vc-type{font-size:10px;font-weight:800;color:var(--M);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.vc-name{font-size:13px;font-weight:800;color:var(--B);margin-bottom:4px}
+.vc-desc{font-size:12px;color:var(--M);line-height:1.55}
+.vc-filter{font-size:11px;font-family:'IBM Plex Mono',monospace;background:#E6F1FB;color:#0C447C;padding:3px 8px;border-radius:4px;display:inline-block;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="hd">
+  <h1>Waren Portfolio — <em>Airtable Schema</em></h1>
+  <p>Complete database architecture · 6 tables · All fields, formulas, automations, and views · Derived from blueprint findings</p>
+</div>
+<div class="pg">
+<nav class="nav">
+  <button class="nb on" onclick="show('config')">Site Config</button>
+  <button class="nb" onclick="show('projects')">Projects</button>
+  <button class="nb" onclick="show('cases')">Case Studies</button>
+  <button class="nb" onclick="show('leads')">Leads</button>
+  <button class="nb" onclick="show('content')">Content Planner</button>
+  <button class="nb" onclick="show('testimonials')">Testimonials</button>
+  <button class="nb" onclick="show('setup')">Setup Guide</button>
+</nav>
+
+<!-- ═══ SITE CONFIG ═══ -->
+<div id="config" class="sec on">
+  <div class="ch">Table 1</div>
+  <h2>Site Config</h2>
+  <p class="desc">Blueprint source: Dynamic image finding + portfolio architecture. Holds all variables the portfolio reads dynamically. Change values here — portfolio updates without code deployment.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th><th>Example Value</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">config_key</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Machine-readable key name. Never change these after setup.</td><td>profile_image_url</td></tr>
+      <tr><td><span class="fn">config_value</span></td><td><span class="typ t-tx">Long text</span></td><td>The actual value. Update this to change portfolio content.</td><td>https://res.cloudinary.com/...</td></tr>
+      <tr><td><span class="fn">label</span></td><td><span class="typ t-tx">Single line text</span></td><td>Human-readable name. For your reference only.</td><td>Profile Image URL</td></tr>
+      <tr><td><span class="fn">last_updated</span></td><td><span class="typ t-dt">Date</span></td><td>When this value was last changed. Manual entry.</td><td>2025-01-15</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px;font-weight:800;color:var(--B);margin-bottom:10px">Records to create (one per row):</p>
+  <div class="code"><span class="c">// config_key              | config_value (replace with your real values)</span>
+<span class="k">profile_image_url</span>       | <span class="s">https://res.cloudinary.com/[your-username]/image/upload/v1/profile/waren.jpg</span>
+<span class="k">tagline</span>                 | <span class="s">I Build Operational Infrastructure for Businesses That Have Outgrown Their Spreadsheets</span>
+<span class="k">availability</span>            | <span class="s">Accepting new projects</span>
+<span class="k">calendly_url</span>            | <span class="s">https://calendly.com/warenodhiambo/20min</span>
+<span class="k">portfolio_url</span>           | <span class="s">https://warenodhiambo.vercel.app</span>
+<span class="k">linkedin_url</span>            | <span class="s">https://linkedin.com/in/warenodhiambo</span>
+<span class="k">email</span>                   | <span class="s">warenodhiambo2@gmail.com</span></div>
+  <div class="note">To update your profile photo: upload new image to Cloudinary → copy URL → open this table → find profile_image_url record → paste new URL in config_value → save. Portfolio updates on next visitor request. Zero code. Zero deployment.</div>
+</div>
+
+<!-- ═══ PROJECTS ═══ -->
+<div id="projects" class="sec">
+  <div class="ch">Table 2</div>
+  <h2>Projects</h2>
+  <p class="desc">Blueprint source: project-based revenue + retainer revenue tracking. One record = one client engagement. Tracks active projects and recurring revenue simultaneously.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description / Formula</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">project_name</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Client + project type. E.g. "Wanjiru Wholesale — Debtor Tracker"</td></tr>
+      <tr><td><span class="fn">client_type</span></td><td><span class="typ t-se">Single select</span></td><td>Options: Wholesale Distributor, Property Agency, Transport SACCO, Logistics Company, Other</td></tr>
+      <tr><td><span class="fn">client_name</span></td><td><span class="typ t-tx">Single line text</span></td><td>Individual or business name</td></tr>
+      <tr><td><span class="fn">client_email</span></td><td><span class="typ t-tx">Email</span></td><td>Primary contact email</td></tr>
+      <tr><td><span class="fn">tier</span></td><td><span class="typ t-se">Single select</span></td><td>Portfolio (free), Starter (KES 3K–5K), Standard (KES 8K–15K), Premium (KES 15K–25K)</td></tr>
+      <tr><td><span class="fn">price_kes</span></td><td><span class="typ t-nu">Currency (KES)</span></td><td>One-time project fee agreed</td></tr>
+      <tr><td><span class="fn">deposit_received</span></td><td><span class="typ t-ch">Checkbox</span></td><td>50% deposit paid. Do not start work until checked.</td></tr>
+      <tr><td><span class="fn">balance_due</span></td><td><span class="typ t-fo">Formula</span></td><td><div class="code" style="margin:0"><span class="k">IF</span>({deposit_received}, {price_kes}/2, {price_kes})</div></td></tr>
+      <tr><td><span class="fn">status</span></td><td><span class="typ t-se">Single select</span></td><td>Scoping, Building, Review, Delivered, Retainer Active, Complete, On Hold</td></tr>
+      <tr><td><span class="fn">start_date</span></td><td><span class="typ t-dt">Date</span></td><td>Date work began</td></tr>
+      <tr><td><span class="fn">delivery_date</span></td><td><span class="typ t-dt">Date</span></td><td>Promised delivery date</td></tr>
+      <tr><td><span class="fn">days_to_delivery</span></td><td><span class="typ t-fo">Formula</span></td><td><div class="code" style="margin:0"><span class="k">DATETIME_DIFF</span>({delivery_date}, TODAY(), <span class="s">'days'</span>)</div>Shows negative if overdue.</td></tr>
+      <tr><td><span class="fn">retainer_active</span></td><td><span class="typ t-ch">Checkbox</span></td><td>Is this client on monthly retainer?</td></tr>
+      <tr><td><span class="fn">retainer_amount_kes</span></td><td><span class="typ t-nu">Currency (KES)</span></td><td>Monthly retainer fee (2,500–5,000)</td></tr>
+      <tr><td><span class="fn">outcome_metric</span></td><td><span class="typ t-tx">Long text</span></td><td>The specific result delivered. E.g. "3-day reconciliation → automated daily report." Used for case study generation.</td></tr>
+      <tr><td><span class="fn">testimonial_requested</span></td><td><span class="typ t-ch">Checkbox</span></td><td>Have you asked for a testimonial? Check on delivery day.</td></tr>
+      <tr><td><span class="fn">case_study</span></td><td><span class="typ t-li">Link to Case Studies</span></td><td>Link to the case study derived from this project.</td></tr>
+      <tr><td><span class="fn">notes</span></td><td><span class="typ t-tx">Long text</span></td><td>Internal notes, scope notes, client communication log.</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px;font-weight:800;color:var(--B);margin:20px 0 10px">Views</p>
+  <div class="view-row">
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Active Projects</div><div class="vc-desc">Everything in progress right now.</div><div class="vc-filter">Filter: status IN (Scoping, Building, Review)</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Retainer Clients</div><div class="vc-desc">Recurring revenue. Call each one monthly.</div><div class="vc-filter">Filter: retainer_active = TRUE</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Overdue Delivery</div><div class="vc-desc">Projects past their delivery date.</div><div class="vc-filter">Filter: days_to_delivery &lt; 0 AND status ≠ Delivered</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Awaiting Testimonial</div><div class="vc-desc">Delivered but testimonial not yet requested.</div><div class="vc-filter">Filter: status = Delivered AND testimonial_requested = FALSE</div></div>
+  </div>
+
+  <p style="font-size:13px;font-weight:800;color:var(--B);margin:20px 0 10px">Automations</p>
+  <div class="auto-card">
+    <div class="ac-hd"><div class="ac-num">1</div><div class="ac-title">Delivery due alert — 2 days before</div></div>
+    <div class="ac-bd">
+      <div class="ac-row"><div class="ac-lbl">Trigger</div><div class="ac-val">Schedule: daily 8AM. Find records where days_to_delivery = 2</div></div>
+      <div class="ac-row"><div class="ac-lbl">Action</div><div class="ac-val">Email to self: "[project_name] — delivery in 2 days. Status: [status]"</div></div>
+    </div>
+  </div>
+  <div class="auto-card">
+    <div class="ac-hd"><div class="ac-num">2</div><div class="ac-title">Testimonial request reminder — 3 days after delivery</div></div>
+    <div class="ac-bd">
+      <div class="ac-row"><div class="ac-lbl">Trigger</div><div class="ac-val">When status changes to "Delivered"</div></div>
+      <div class="ac-row"><div class="ac-lbl">Action</div><div class="ac-val">Wait 3 days → Send reminder email to self: "Request testimonial from [client_name] today"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CASE STUDIES ═══ -->
+<div id="cases" class="sec">
+  <div class="ch">Table 3</div>
+  <h2>Case Studies</h2>
+  <p class="desc">Blueprint source: case studies convert mid-funnel buyers better than testimonials. Each record populates one portfolio case study page. The portfolio reads this table via Airtable API.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">title</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Format: "[Client Type] — From [Before State] to [After State]"</td></tr>
+      <tr><td><span class="fn">slug</span></td><td><span class="typ t-tx">Single line text</span></td><td>URL-safe version of title. E.g. "wholesale-distributor-debtor-tracker". Used in portfolio URL.</td></tr>
+      <tr><td><span class="fn">client_type</span></td><td><span class="typ t-se">Single select</span></td><td>Wholesale Distributor, Property Agency, Transport SACCO, Logistics, Other</td></tr>
+      <tr><td><span class="fn">problem_state</span></td><td><span class="typ t-tx">Long text</span></td><td>The before state. How was the business operating before your system? Be specific.</td></tr>
+      <tr><td><span class="fn">system_built</span></td><td><span class="typ t-tx">Long text</span></td><td>What you built. Tables, automations, views. Technical but readable.</td></tr>
+      <tr><td><span class="fn">outcome_metric</span></td><td><span class="typ t-tx">Single line text</span></td><td>The one-line result. E.g. "KES 200K in outstanding debt made visible on day 1."</td></tr>
+      <tr><td><span class="fn">pipeline_stages</span></td><td><span class="typ t-se">Multi select</span></td><td>Structure, Automate, Illuminate (which stages this project involved)</td></tr>
+      <tr><td><span class="fn">loom_url</span></td><td><span class="typ t-tx">URL</span></td><td>Loom walkthrough video. Record a 90-second demo of the live system.</td></tr>
+      <tr><td><span class="fn">hero_image_url</span></td><td><span class="typ t-tx">URL</span></td><td>Screenshot of the Airtable system. Upload to Cloudinary, paste URL here.</td></tr>
+      <tr><td><span class="fn">tools_used</span></td><td><span class="typ t-se">Multi select</span></td><td>Airtable, Google Sheets, n8n, Zapier, SQL, Python, Supabase</td></tr>
+      <tr><td><span class="fn">published_date</span></td><td><span class="typ t-dt">Date</span></td><td>When published to portfolio. Portfolio sorts by this descending.</td></tr>
+      <tr><td><span class="fn">published</span></td><td><span class="typ t-ch">Checkbox</span></td><td>Only checked records appear on portfolio. Keep unchecked while drafting.</td></tr>
+      <tr><td><span class="fn">linked_project</span></td><td><span class="typ t-li">Link to Projects</span></td><td>The project this case study comes from.</td></tr>
+    </tbody>
+  </table>
+  <div class="note">Every case study must have a real outcome_metric. "Helped the client manage their data better" is not an outcome metric. "KES 180,000 in untracked customer debt made visible on day one" is an outcome metric.</div>
+</div>
+
+<!-- ═══ LEADS ═══ -->
+<div id="leads" class="sec">
+  <div class="ch">Table 4</div>
+  <h2>Leads</h2>
+  <p class="desc">Blueprint source: LinkedIn comment → DM → discovery call → project acquisition funnel. Every prospect from every source lands here. This table tells you which content and which source is generating revenue.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">name</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Full name of prospect</td></tr>
+      <tr><td><span class="fn">email</span></td><td><span class="typ t-tx">Email</span></td><td>Contact email</td></tr>
+      <tr><td><span class="fn">business</span></td><td><span class="typ t-tx">Single line text</span></td><td>Business name and location. E.g. "Kariuki Wholesale, Gikomba"</td></tr>
+      <tr><td><span class="fn">problem_description</span></td><td><span class="typ t-tx">Long text</span></td><td>What they said their problem is. Exact words if possible.</td></tr>
+      <tr><td><span class="fn">source</span></td><td><span class="typ t-se">Single select</span></td><td>LinkedIn DM, LinkedIn Comment, Portfolio Website, WhatsApp, Referral, Upwork, Walk-in, Other</td></tr>
+      <tr><td><span class="fn">status</span></td><td><span class="typ t-se">Single select</span></td><td>New → Contacted → Discovery Call Booked → Discovery Call Done → Proposal Sent → Won → Lost → No Response</td></tr>
+      <tr><td><span class="fn">submitted_at</span></td><td><span class="typ t-dt">Date + time</span></td><td>When lead came in. Auto-set by website form via API.</td></tr>
+      <tr><td><span class="fn">discovery_call_date</span></td><td><span class="typ t-dt">Date</span></td><td>Scheduled discovery call date</td></tr>
+      <tr><td><span class="fn">proposal_amount_kes</span></td><td><span class="typ t-nu">Currency (KES)</span></td><td>The amount you proposed</td></tr>
+      <tr><td><span class="fn">proposal_sent_date</span></td><td><span class="typ t-dt">Date</span></td><td>When proposal was sent</td></tr>
+      <tr><td><span class="fn">follow_up_date</span></td><td><span class="typ t-dt">Date</span></td><td>When to follow up next. Set manually after each interaction.</td></tr>
+      <tr><td><span class="fn">days_since_contact</span></td><td><span class="typ t-fo">Formula</span></td><td><div class="code" style="margin:0"><span class="k">DATETIME_DIFF</span>(TODAY(), {submitted_at}, <span class="s">'days'</span>)</div></td></tr>
+      <tr><td><span class="fn">lost_reason</span></td><td><span class="typ t-se">Single select</span></td><td>Price, Timing, No Response, Chose Competitor, Not a Fit. Fill when status = Lost.</td></tr>
+      <tr><td><span class="fn">converted_project</span></td><td><span class="typ t-li">Link to Projects</span></td><td>Link to project record when lead converts. Shows full funnel.</td></tr>
+      <tr><td><span class="fn">notes</span></td><td><span class="typ t-tx">Long text</span></td><td>Notes from each interaction. Date-stamp each: "12 Jun — called, needs a week to decide"</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px;font-weight:800;color:var(--B);margin:20px 0 10px">Views</p>
+  <div class="view-row">
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Action Required Today</div><div class="vc-desc">Leads with follow_up_date = today. These people need a message from you right now.</div><div class="vc-filter">Filter: follow_up_date = today AND status ≠ Won/Lost</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Hot Pipeline</div><div class="vc-desc">Discovery call done or proposal sent. Closest to revenue.</div><div class="vc-filter">Filter: status IN (Discovery Call Done, Proposal Sent)</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Gone Cold (14+ days)</div><div class="vc-desc">No contact in 14 days. Either re-engage or mark Lost.</div><div class="vc-filter">Filter: days_since_contact &gt; 14 AND status = Contacted</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">By Source</div><div class="vc-desc">Grouped by source. Shows which channel generates actual revenue.</div><div class="vc-filter">Group by: source · Sort: status</div></div>
+  </div>
+
+  <p style="font-size:13px;font-weight:800;color:var(--B);margin:20px 0 10px">Automation</p>
+  <div class="auto-card">
+    <div class="ac-hd"><div class="ac-num">1</div><div class="ac-title">New website lead — instant notification</div></div>
+    <div class="ac-bd">
+      <div class="ac-row"><div class="ac-lbl">Trigger</div><div class="ac-val">New record created in Leads AND source = "Portfolio Website"</div></div>
+      <div class="ac-row"><div class="ac-lbl">Action</div><div class="ac-val">Email to warenodhiambo2@gmail.com: "New lead from portfolio: [name], [business]. Problem: [problem_description]. Reply within 2 hours."</div></div>
+    </div>
+  </div>
+  <div class="auto-card">
+    <div class="ac-hd"><div class="ac-num">2</div><div class="ac-title">Follow-up reminder — daily 8AM</div></div>
+    <div class="ac-bd">
+      <div class="ac-row"><div class="ac-lbl">Trigger</div><div class="ac-val">Schedule: daily 8AM. Find records where follow_up_date = today AND status ≠ Won/Lost</div></div>
+      <div class="ac-row"><div class="ac-lbl">Action</div><div class="ac-val">Email digest: "Follow up today: [name] — [business] — [status]"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTENT PLANNER ═══ -->
+<div id="content" class="sec">
+  <div class="ch">Table 5</div>
+  <h2>Content Planner</h2>
+  <p class="desc">Blueprint source: 6 content pillars, 4 posts/week, observation-first method. Tracks posts from idea to published, then links performance back to which content sources produce leads.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">post_title</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Working title of the post. Start with the observation, not the lesson.</td></tr>
+      <tr><td><span class="fn">pillar</span></td><td><span class="typ t-se">Single select</span></td><td>1-Proof (system screenshots), 2-Observation (business reality), 3-Process (how Structure/Automate/Illuminate works), 4-Insight (patterns from client work), 5-Question (engagement), 6-Failure (what went wrong and why)</td></tr>
+      <tr><td><span class="fn">observation_notes</span></td><td><span class="typ t-tx">Long text</span></td><td>The raw observation. What did you notice in a real business? Write it here before you write the post.</td></tr>
+      <tr><td><span class="fn">post_body</span></td><td><span class="typ t-tx">Long text</span></td><td>Full post copy. Write here before scheduling.</td></tr>
+      <tr><td><span class="fn">status</span></td><td><span class="typ t-se">Single select</span></td><td>Idea → Draft → Ready → Scheduled → Published</td></tr>
+      <tr><td><span class="fn">scheduled_date</span></td><td><span class="typ t-dt">Date</span></td><td>When to post. Blueprint: Tuesday + Friday = highest engagement for this audience.</td></tr>
+      <tr><td><span class="fn">published_date</span></td><td><span class="typ t-dt">Date</span></td><td>Actual publish date</td></tr>
+      <tr><td><span class="fn">linkedin_url</span></td><td><span class="typ t-tx">URL</span></td><td>Link to the live LinkedIn post once published.</td></tr>
+      <tr><td><span class="fn">impressions</span></td><td><span class="typ t-nu">Number</span></td><td>LinkedIn impressions (check 48 hours after posting)</td></tr>
+      <tr><td><span class="fn">comments</span></td><td><span class="typ t-nu">Number</span></td><td>Comment count. Comments > impressions for lead generation.</td></tr>
+      <tr><td><span class="fn">leads_generated</span></td><td><span class="typ t-ro">Rollup from Leads</span></td><td>Count of leads whose source = this post. Tells you exactly which content converts.</td></tr>
+    </tbody>
+  </table>
+  <div class="view-row">
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">This Week</div><div class="vc-desc">Posts scheduled this week. Check Monday morning.</div><div class="vc-filter">Filter: scheduled_date = this week</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Ready to Post</div><div class="vc-desc">Written and approved. Schedule these.</div><div class="vc-filter">Filter: status = Ready</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Top Performers</div><div class="vc-desc">Sort by impressions then by comments to find what resonates.</div><div class="vc-filter">Sort: comments DESC</div></div>
+    <div class="view-card"><div class="vc-type">Grid</div><div class="vc-name">Ideas Bank</div><div class="vc-desc">Observations noted but not yet drafted.</div><div class="vc-filter">Filter: status = Idea</div></div>
+  </div>
+</div>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<div id="testimonials" class="sec">
+  <div class="ch">Table 6</div>
+  <h2>Testimonials</h2>
+  <p class="desc">Blueprint source: specific operational metric + named client type = mid-funnel conversion trigger. Only real testimonials with permission. Never fabricate.</p>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="fn">client_name</span> ⭐</td><td><span class="typ t-tx">Primary text</span></td><td>Full name. First name only acceptable if client prefers.</td></tr>
+      <tr><td><span class="fn">role</span></td><td><span class="typ t-tx">Single line text</span></td><td>Job title or role. E.g. "Director", "Owner", "Operations Manager"</td></tr>
+      <tr><td><span class="fn">company</span></td><td><span class="typ t-tx">Single line text</span></td><td>Business name. If client prefers anonymity, use "[Wholesale Distributor, Nairobi]"</td></tr>
+      <tr><td><span class="fn">quote</span></td><td><span class="typ t-tx">Long text</span></td><td>Exact words. Do not edit for grammar — authentic beats polished.</td></tr>
+      <tr><td><span class="fn">permission_granted</span></td><td><span class="typ t-ch">Checkbox</span></td><td>MUST be checked before this appears on portfolio. Screenshot or record the permission.</td></tr>
+      <tr><td><span class="fn">contains_metric</span></td><td><span class="typ t-ch">Checkbox</span></td><td>Does the quote contain a specific number or outcome? Metric-based testimonials convert 3x better.</td></tr>
+      <tr><td><span class="fn">date_received</span></td><td><span class="typ t-dt">Date</span></td><td>When you received the testimonial.</td></tr>
+      <tr><td><span class="fn">linked_project</span></td><td><span class="typ t-li">Link to Projects</span></td><td>The project this testimonial relates to.</td></tr>
+      <tr><td><span class="fn">permission_evidence</span></td><td><span class="typ t-at">Attachment</span></td><td>Screenshot of WhatsApp/email where client approved use. Legal protection.</td></tr>
+    </tbody>
+  </table>
+  <div class="note">Blueprint rule: one testimonial that says "I can now see exactly who owes me KES 200,000 — before this I had no idea" is worth more than ten that say "Waren did a great job." When requesting, ask specifically: what changed for your business after the system was built?</div>
+</div>
+
+<!-- ═══ SETUP GUIDE ═══ -->
+<div id="setup" class="sec">
+  <div class="ch">Setup</div>
+  <h2>Airtable Setup Guide</h2>
+  <p class="desc">Exact steps to build this base. Do them in this order.</p>
+
+  <div class="code">
+<span class="c">// STEP 1 — Create the Airtable base</span>
+<span class="k">1.</span> Go to airtable.com → New Base → Start from scratch
+<span class="k">2.</span> Name it: <span class="s">"Waren Portfolio Operations"</span>
+<span class="k">3.</span> Delete the default "Table 1"
+
+<span class="c">// STEP 2 — Create tables in this exact order</span>
+<span class="k">1.</span> Site Config      ← create first (no dependencies)
+<span class="k">2.</span> Projects         ← create second
+<span class="k">3.</span> Case Studies     ← link to Projects
+<span class="k">4.</span> Testimonials     ← link to Projects
+<span class="k">5.</span> Leads            ← link to Projects
+<span class="k">6.</span> Content Planner  ← standalone
+
+<span class="c">// STEP 3 — Get your API credentials</span>
+<span class="k">API Key:</span>  airtable.com → Profile icon → Developer hub → Personal access tokens
+         → Create token → Scopes: data.records:read + data.records:write
+         → Access: your new base → Generate token → COPY AND SAVE IMMEDIATELY
+
+<span class="k">Base ID:</span>  Open your base → Help → API documentation → first line shows "The ID of this base is appXXXXXXXXXXXXXX"
+
+<span class="c">// STEP 4 — Add to .env.local</span>
+<span class="s">AIRTABLE_API_KEY</span>=patXXX...  (from step 3)
+<span class="s">AIRTABLE_BASE_ID</span>=appXXX...  (from step 3)
+
+<span class="c">// STEP 5 — Test the connection</span>
+Run: <span class="k">npm run dev</span>
+Open: <span class="s">http://localhost:3000</span>
+If the page loads without errors → connection is working
+
+<span class="c">// STEP 6 — Populate Site Config table</span>
+Add the 7 records listed in the Site Config tab above.
+Add your real Cloudinary image URL, Calendly URL, etc.
+Refresh the portfolio → your content should appear.
+
+<span class="c">// STEP 7 — Add your first Project record</span>
+Even if it's a free/portfolio client — add them.
+This is the beginning of your business record.
+  </div>
+</div>
+
+</div><!-- end page -->
+<script>
+function show(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  event.target.classList.add('on');
+}
+</script>
+</body>
+</html>
