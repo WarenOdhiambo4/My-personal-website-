@@ -1,5 +1,6 @@
-
-
+// components/CaseStudies.js
+// Case Studies schema: tittle (primary), slug, client_type, problem_state,
+// system_built, outcome_metric, loom_url, hero_image_url, tools_used, published
 import { useState, useEffect } from 'react';
 import { clientGetCaseStudies } from '../lib/airtable-client';
 
