@@ -1,43 +1,12 @@
 # Waren Odhiambo — Portfolio Deployment Guide
 
-## Folder structure
+## Step 1 — Set up Airtable 
 
-```
-waren-portfolio/
-├── pages/
-│   ├── _app.js          — Global styles wrapper
-│   ├── index.js         — Home page (fetches Airtable at build time)
-│   └── api/
-│       └── lead.js      — API route: form submissions → Airtable Leads table
-├── components/
-│   ├── Nav.js           — Sticky navigation
-│   ├── Hero.js          — Headline, pipeline stages, profile photo from Airtable
-│   ├── Process.js       — Structure → Automate → Illuminate section
-│   ├── CaseStudies.js   — Paroha proof card + Airtable-driven case studies
-│   ├── About.js         — Full about copy + credential stack
-│   ├── Testimonials.js  — Airtable-driven testimonials
-│   ├── CTA.js           — Book call + inquiry form → Airtable Leads
-│   └── Footer.js
-├── lib/
-│   └── airtable.js      — All Airtable API calls
-├── styles/
-│   └── globals.css      — Design tokens, fonts
-├── .env.local.example   — Copy to .env.local and fill in your keys
-├── AIRTABLE_SCHEMA.html — Complete Airtable database specification
-├── next.config.js
-├── vercel.json
-└── netlify.toml
-```
 
----
-
-## Step 1 — Set up Airtable (do this first)
-
-1. Open `AIRTABLE_SCHEMA.html` in your browser
-2. Follow the Setup tab inside that file
-3. Create all 6 tables with exact field names
-4. Add Site Config records (profile image URL, Calendly URL, etc.)
-5. Copy your `AIRTABLE_API_KEY` and `AIRTABLE_BASE_ID`
+Follow the Setup tab inside that file
+Create all 6 tables with exact field names
+Add Site Config records (profile image URL, Calendly URL, etc.)
+Copy your `AIRTABLE_API_KEY` and `AIRTABLE_BASE_ID`
 
 ---
 
@@ -112,7 +81,7 @@ netlify deploy --prod --dir=.next
 
 ---
 
-## How to update content (no code)
+## How to update content 
 
 | What you want to change | Where to do it |
 |---|---|
@@ -162,18 +131,3 @@ netlify deploy --prod --dir=.next
 
 ---
 
-## Troubleshooting
-
-**Portfolio shows empty / no data:**
-- Check `.env.local` exists and has correct keys
-- Verify Airtable base has the exact table names (case-sensitive)
-- Check Airtable API token has read + write scopes
-
-**Lead form not submitting:**
-- Check `pages/api/lead.js` is present
-- Verify AIRTABLE_BASE_ID is correct
-- Check Leads table has exact field names: name, email, business, problem_description, source, status
-
-**Profile image not showing:**
-- Verify the Cloudinary URL is publicly accessible (open it in browser)
-- Check Site Config table has a record with config_key = "profile_image_url"
