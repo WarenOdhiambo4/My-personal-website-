@@ -1,6 +1,3 @@
-// components/CaseStudies.js
-// Case Studies schema: tittle (primary), slug, client_type, problem_state,
-// system_built, outcome_metric, loom_url, hero_image_url, tools_used, published
 import { useState, useEffect } from 'react';
 import { clientGetCaseStudies } from '../lib/airtable-client';
 
@@ -24,60 +21,60 @@ export default function CaseStudies({ caseStudies: serverData = [] }) {
           Production work.<br />Real operational environments.
         </h2>
 
-        {/* Paroha — always shown first */}
-        <ParohaCard />
+//         {/* Paroha — always shown first */}
+//         <ParohaCard />
 
-        {caseStudies.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 20, marginTop: 20 }}>
-            {caseStudies.map(cs => <CaseStudyCard key={cs.id} cs={cs} />)}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
+//         {caseStudies.length > 0 && (
+//           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 20, marginTop: 20 }}>
+//             {caseStudies.map(cs => <CaseStudyCard key={cs.id} cs={cs} />)}
+//           </div>
+//         )}
+//       </div>
+//     </section>
+//   );
+// }
 
-function ParohaCard() {
-  const outcomes = [
-    { before: '3 days of manual reconciliation', after: 'Automated daily report', stage: 'Automate' },
-    { before: 'No logistics visibility', after: 'Daily delivery performance dashboard', stage: 'Illuminate' },
-    { before: 'Manual sales tracking', after: 'Automated pipeline data aggregation', stage: 'Automate' },
-    { before: 'Manual customer follow-up', after: 'n8n workflow handles all reminders', stage: 'Automate' },
-  ];
-  return (
-    <div style={{ border: '2px solid var(--blue)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', marginBottom: 20 }}>
-      <div style={{ background: 'var(--blue)', padding: '20px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 5 }}>Production Environment · Live Business · 2024–Present</div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: '#fff' }}>Paroha Investment Limited</div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 3 }}>Logistics & Sales Operations · Kisumu, Kenya</div>
-        </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {['Structure', 'Automate', 'Illuminate'].map(s => (
-            <span key={s} style={{ fontSize: 10, fontWeight: 800, padding: '4px 11px', background: 'rgba(240,120,35,0.2)', color: 'var(--orange)', borderRadius: 20, border: '1px solid rgba(240,120,35,0.4)', letterSpacing: '0.06em' }}>{s}</span>
-          ))}
-        </div>
-      </div>
-      <div style={{ padding: '24px 28px' }}>
-        <p style={{ fontSize: 13, fontWeight: 800, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Operational transformations delivered</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
-          {outcomes.map((o, i) => (
-            <div key={i} style={{ background: 'var(--off)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)', padding: '14px 16px' }}>
-              <div style={{ display: 'inline-block', fontSize: 9, fontWeight: 800, padding: '2px 9px', borderRadius: 20, marginBottom: 10, background: 'var(--blue)', color: '#fff', letterSpacing: '0.07em' }}>{o.stage}</div>
-              <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 6, textDecoration: 'line-through' }}>{o.before}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>→ {o.after}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginTop: 18 }}>
-          {['SQL', 'n8n', 'Airtable', 'Python', 'Business Intelligence', 'Workflow Automation'].map(t => (
-            <span key={t} style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', background: 'var(--blue-pale)', color: 'var(--blue)', borderRadius: 20 }}>{t}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+// function ParohaCard() {
+//   const outcomes = [
+//     { before: '3 days of manual reconciliation', after: 'Automated daily report', stage: 'Automate' },
+//     { before: 'No logistics visibility', after: 'Daily delivery performance dashboard', stage: 'Illuminate' },
+//     { before: 'Manual sales tracking', after: 'Automated pipeline data aggregation', stage: 'Automate' },
+//     { before: 'Manual customer follow-up', after: 'n8n workflow handles all reminders', stage: 'Automate' },
+//   ];
+//   return (
+//     <div style={{ border: '2px solid var(--blue)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', marginBottom: 20 }}>
+//       <div style={{ background: 'var(--blue)', padding: '20px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+//         <div>
+//           <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 5 }}>Production Environment · Live Business · 2024–Present</div>
+//           <div style={{ fontSize: 20, fontWeight: 900, color: '#fff' }}>Paroha Investment Limited</div>
+//           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 3 }}>Logistics & Sales Operations · Kisumu, Kenya</div>
+//         </div>
+//         <div style={{ display: 'flex', gap: 8 }}>
+//           {['Structure', 'Automate', 'Illuminate'].map(s => (
+//             <span key={s} style={{ fontSize: 10, fontWeight: 800, padding: '4px 11px', background: 'rgba(240,120,35,0.2)', color: 'var(--orange)', borderRadius: 20, border: '1px solid rgba(240,120,35,0.4)', letterSpacing: '0.06em' }}>{s}</span>
+//           ))}
+//         </div>
+//       </div>
+//       <div style={{ padding: '24px 28px' }}>
+//         <p style={{ fontSize: 13, fontWeight: 800, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Operational transformations delivered</p>
+//         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
+//           {outcomes.map((o, i) => (
+//             <div key={i} style={{ background: 'var(--off)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)', padding: '14px 16px' }}>
+//               <div style={{ display: 'inline-block', fontSize: 9, fontWeight: 800, padding: '2px 9px', borderRadius: 20, marginBottom: 10, background: 'var(--blue)', color: '#fff', letterSpacing: '0.07em' }}>{o.stage}</div>
+//               <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 6, textDecoration: 'line-through' }}>{o.before}</div>
+//               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>→ {o.after}</div>
+//             </div>
+//           ))}
+//         </div>
+//         <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginTop: 18 }}>
+//           {['SQL', 'n8n', 'Airtable', 'Python', 'Business Intelligence', 'Workflow Automation'].map(t => (
+//             <span key={t} style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', background: 'var(--blue-pale)', color: 'var(--blue)', borderRadius: 20 }}>{t}</span>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 // "tittle" is the actual primary field name in the schema (verified)
 function CaseStudyCard({ cs }) {
